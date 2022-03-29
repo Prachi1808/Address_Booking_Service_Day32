@@ -1,0 +1,150 @@
+uc1 -Ability to create a Address Book Service DB
+CREATE DATABASE Address_Booking_Service;
+Query OK, 1 row affected (0.01 sec)
+USE Address_Booking_Service;
+Database changed
+UC2- Ability to create a Address Book Table with first and last names, address, city,state, zip, phone number and email as its attributes
+ CREATE TABLE Address_Booking_Service (FirstName varchar(250),LastName varchar(250),Address varchar(255),City varchar(250),State varchar(250),Zipcode varchar(10),PhoneNumber varchar(20),Email varchar (250));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc Address_Booking_Service;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| FirstName   | varchar(250) | YES  |     | NULL    |       |
+| LastName    | varchar(250) | YES  |     | NULL    |       |
+| Address     | varchar(255) | YES  |     | NULL    |       |
+| City        | varchar(250) | YES  |     | NULL    |       |
+| State       | varchar(250) | YES  |     | NULL    |       |
+| Zipcode     | varchar(10)  | YES  |     | NULL    |       |
+| PhoneNumber | varchar(20)  | YES  |     | NULL    |       |
+| Email       | varchar(250) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+8 rows in set (0.01 sec)
+UC3-Ability to insert new Contacts to Address Book
+ ALTER TABLE Address_Booking_Service ADD New_Contact varchar(255) NOT NULL AFTER Email;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESC Address_Booking_Service;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| FirstName   | varchar(250) | YES  |     | NULL    |       |
+| LastName    | varchar(250) | YES  |     | NULL    |       |
+| Address     | varchar(255) | YES  |     | NULL    |       |
+| City        | varchar(250) | YES  |     | NULL    |       |
+| State       | varchar(250) | YES  |     | NULL    |       |
+| Zipcode     | varchar(10)  | YES  |     | NULL    |       |
+| PhoneNumber | varchar(20)  | YES  |     | NULL    |       |
+| Email       | varchar(250) | YES  |     | NULL    |       |
+| New_Contact | varchar(255) | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+9 rows in set (0.01 sec)
+UC4-Ability to edit existing contact person using their name
+ UPDATE Address_Booking_Service SET LastName = "Das" WHERE FirstName = "Pri";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM Address_Booking_Service;
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+
+| FirstName | LastName | Address         | City     | State     | Zipcode | PhoneNumber | Email                   | New_Contact |
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+
+| Prachi    | Mohanty  | Kendupadar      | Phulbani | Kandhamal | 762001  | 9874564657  | prachse.dfs@gmail.com   | 9563433445  |
+| Sargam    | Das      | Prachi enclaves | BBSR     | Khurdha   | 762021  | 9874343467  | prachse10202s@gmail.com | 9563433345  |
+| Priyam    | Mohanty  | Friends colony  | puri     | Puri      | 761001  | 98745646443 | irdsd.wes@gmail.com     | 956343444   |
+| Pritish   | Mohanty  | Kendupadar      | Phulbani | Kandhamal | 762001  | 9874567877  | pritishs@gmail.com      | 943346767   |
+| Pri       | Das      | Friends colony  | puri     | Puri      | 761001  | 98745646443 | irdsd.wes@gmail.com     | 956343444   |
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+
+5 rows in set (0.00 sec)
+UC5-Ability to delete a person using person's name
+DELETE FROM Address_Booking_Service WHERE FirstName ="Pri";
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM Address_Booking_Service;
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+
+| FirstName | LastName | Address         | City     | State     | Zipcode | PhoneNumber | Email                   | New_Contact |
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+
+| Prachi    | Mohanty  | Kendupadar      | Phulbani | Kandhamal | 762001  | 9874564657  | prachse.dfs@gmail.com   | 9563433445  |
+| Sargam    | Das      | Prachi enclaves | BBSR     | Khurdha   | 762021  | 9874343467  | prachse10202s@gmail.com | 9563433345  |
+| Priyam    | Mohanty  | Friends colony  | puri     | Puri      | 761001  | 98745646443 | irdsd.wes@gmail.com     | 956343444   |
+| Pritish   | Mohanty  | Kendupadar      | Phulbani | Kandhamal | 762001  | 9874567877  | pritishs@gmail.com      | 943346767   |
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+
+4 rows in set (0.00 sec)
+UC6-Ability to Retrieve Person belonging to a City or State from the Address Book
+ SELECT FirstName,LastName FROM Address_Booking_Service WHERE City = "Phulbani";
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Prachi    | Mohanty  |
+| Pritish   | Mohanty  |
++-----------+----------+
+2 rows in set (0.00 sec)
+UC7-Ability to understand the size of address book by City and State
+ SELECT COUNT(City),COUNT(State),City,State FROM Address_Booking_Service GROUP BY City;
++-------------+--------------+----------+-----------+
+| COUNT(City) | COUNT(State) | City     | State     |
++-------------+--------------+----------+-----------+
+|           2 |            2 | Phulbani | Kandhamal |
+|           1 |            1 | BBSR     | Khurdha   |
+|           1 |            1 | puri     | Puri      |
++-------------+--------------+----------+-----------+
+3 rows in set (0.00 sec)
+UC8-Ability to retrieve entries sorted alphabetically by Person’s name for a given city
+ SELECT FirstName,LastName FROM Address_Booking_Service ORDER BY FirstName;
++-----------+----------+
+| FirstName | LastName |
++-----------+----------+
+| Prachi    | Mohanty  |
+| Pritish   | Mohanty  |
+| Priyam    | Mohanty  |
+| Sargam    | Das      |
++-----------+----------+
+4 rows in set (0.00 sec)
+uc9-Ability to identify each Address Book with name and Type.
+ALTER TABLE Address_Booking_Service ADD Type varchar(50);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+SELECT * FROM Address_Booking_Service;
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+------+
+| FirstName | LastName | Address         | City     | State     | Zipcode | PhoneNumber | Email                   | New_Contact | Type |
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+------+
+| Prachi    | Mohanty  | Kendupadar      | Phulbani | Kandhamal | 762001  | 9874564657  | prachse.dfs@gmail.com   | 9563433445  | NULL |
+| Sargam    | Das      | Prachi enclaves | BBSR     | Khurdha   | 762021  | 9874343467  | prachse10202s@gmail.com | 9563433345  | NULL |
+| Priyam    | Mohanty  | Friends colony  | puri     | Puri      | 761001  | 98745646443 | irdsd.wes@gmail.com     | 956343444   | NULL |
+| Pritish   | Mohanty  | Kendupadar      | Phulbani | Kandhamal | 762001  | 9874567877  | pritishs@gmail.com      | 943346767   | NULL |
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+------+
+4 rows in set (0.00 sec)
+ UPDATE Address_Booking_Service SET Type ="Family" WHERE FirstName ="Prachi";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Address_Booking_Service SET Type ="Friends" WHERE FirstName ="Pritish";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+UPDATE Address_Booking_Service SET Type ="Profession" WHERE FirstName ="Priyam";
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+SELECT * FROM Address_Booking_Service;
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+------------+
+| FirstName | LastName | Address         | City     | State     | Zipcode | PhoneNumber | Email                   | New_Contact | Type       |
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+------------+
+| Prachi    | Mohanty  | Kendupadar      | Phulbani | Kandhamal | 762001  | 9874564657  | prachse.dfs@gmail.com   | 9563433445  | Family     |
+| Sargam    | Das      | Prachi enclaves | BBSR     | Khurdha   | 762021  | 9874343467  | prachse10202s@gmail.com | 9563433345  | NULL       |
+| Priyam    | Mohanty  | Friends colony  | puri     | Puri      | 761001  | 98745646443 | irdsd.wes@gmail.com     | 956343444   | Profession |
+| Pritish   | Mohanty  | Kendupadar      | Phulbani | Kandhamal | 762001  | 9874567877  | pritishs@gmail.com      | 943346767   | Friends    |
++-----------+----------+-----------------+----------+-----------+---------+-------------+-------------------------+-------------+------------+
+4 rows in set (0.00 sec)
+UC10-Ability to get number of contact persons i.e. count by type
+SELECT PhoneNumber,FirstName,COUNT(Type) FROM Address_Booking_Service WHERE FirstName ="Prachi";
++-------------+-----------+-------------+
+| PhoneNumber | FirstName | COUNT(Type) |
++-------------+-----------+-------------+
+| 9874564657  | Prachi    |           1 |
++-------------+-----------+-------------+
+1 row in set (0.00 sec)
+UC11-Ability to add person to both Friend and Family
+ADD Address_Booking_Service VALUES('Swagat','DAS','Housing Colony','Phulbani','Kandhamal','762002','98745566567','swagta.tre@gmail.com,'Friends');
